@@ -1,0 +1,64 @@
+{
+  "mission": [
+    {
+      "step": 1,
+      "depth": 0.0,
+      "yaw": 2.0,
+      "hold_time": 30
+    },
+    {
+      "step": 2,
+      "depth": 0.0,
+      "yaw": 2.0,
+      "hold_time": 30
+    },
+    {
+      "step": 3,
+      "depth": 0.0,
+      "yaw": -288.0,
+      "hold_time": 30
+    },
+    {
+      "step": 4,
+      "depth": 0.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    },
+    {
+      "step": 5,
+      "depth": 0.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    },
+    {
+      "step": 6,
+      "depth": 0.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    },
+    {
+      "step": 7,
+      "depth": 0.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    },
+    {
+      "step": 8,
+      "depth": 3242.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    },
+    {
+      "step": 9,
+      "depth": 24452.0,
+      "yaw": 354534.0,
+      "hold_time": 30
+    },
+    {
+      "step": 10,
+      "depth": 0.0,
+      "yaw": 0.0,
+      "hold_time": 30
+    }
+  ]
+}
