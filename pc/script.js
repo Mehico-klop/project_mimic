@@ -1,44 +1,43 @@
-const rows = 10;
-const cols = 4;
+// ... существующий код для таблицы (адаптируйте на 3 колонки: depth, yaw, time)
 
-const tbody = document.querySelector("#commandTable tbody");
+const socket = io();  // SocketIO
 
-// создаём таблицу
-for (let i = 0; i < rows; i++) {
-    const tr = document.createElement("tr");
-    for (let j = 0; j < cols; j++) {
-        const td = document.createElement("td");
-        const input = document.createElement("input");
-        input.type = "number";
-        input.value = 0;
-        td.appendChild(input);
-        tr.appendChild(td);
-    }
-    tbody.appendChild(tr);
+socket.on('telemetry', function(data) {
+    const telemetryDiv = document.getElementById('telemetry');
+    telemetryDiv.innerHTML = `
+        Глубина: ${data.depth} м<br>
+        Давление: ${data.pressure} hPa<br>
+        Yaw: ${data.yaw}°<br>
+        Ток: ${data.current} A<br>
+        Напряжение: ${data.voltage} V
+    `;
+});
+
+// Кнопки (добавьте в HTML: <button onclick="startMission()">Запуск миссии</button> <button onclick="stopMission()">Экстренный стоп</button>)
+
+function startMission() {
+    fetch('/api/play', {method: 'POST'});
 }
 
-function collectData() {
-    const data = [];
-    tbody.querySelectorAll("tr").forEach(tr => {
-        const row = [];
-        tr.querySelectorAll("input").forEach(input => {
-            row.push(Number(input.value));
-        });
-        data.push(row);
+function stopMission() {
+    fetch('/api/stop', {method: 'POST'});
+}
+
+function saveMission() {
+    const data = {};
+    const inputs = document.querySelectorAll('#commandTable input');
+    inputs.forEach((input, idx) => {
+        const row = Math.floor(idx / 3) + 1;
+        const col = idx % 3;
+        if (col === 0) data[`depth_${row}`] = input.value;
+        if (col === 1) data[`yaw_${row}`] = input.value;
+        if (col === 2) data[`time_${row}`] = input.value;
     });
-    return data;
-}
-
-function sendSequence() {
-    fetch("/api/upload_sequence", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            sequence: collectData()
-        })
+    fetch('/save_mission', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
     });
 }
 
-function play() {
-    fetch("/api/play", {method: "POST"});
-}
+// Вызовите saveMission() перед стартом, если нужно
