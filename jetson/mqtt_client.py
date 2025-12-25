@@ -8,7 +8,7 @@ import paho.mqtt.client as mqtt  # pip install paho-mqtt
 SERIAL_PORT = '/dev/ttyUSB0'  # Адаптируйте
 BAUDRATE = 115200
 MISSION_FILE = 'mission.json'  # Копируйте с PC вручную или добавьте скачивание
-MQTT_BROKER = "localhost"  # Или IP PC/брокера
+MQTT_BROKER = "192.168.1.237"  # Или IP PC/брокера
 MQTT_PORT = 1883
 TELEMETRY_TOPIC = "auv/telemetry"
 CONTROL_TOPIC = "auv/control"
