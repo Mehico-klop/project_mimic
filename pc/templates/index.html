@@ -1,43 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AUV Web Пульт</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>AUV Пульт</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
-    <h1>Планировщик миссии AUV (10 шагов)</h1>
-    <table border="1">
-        <tr><th>Шаг</th><th>Глубина (м)</th><th>Yaw (градусы)</th><th>Время удержания (сек)</th></tr>
-        {% for i in range(1,11) %}
-        <tr>
-            <td>{{ i }}</td>
-            <td><input type="number" step="0.1" id="depth_{{i}}" value="0"></td>
-            <td><input type="number" id="yaw_{{i}}" value="0"></td>
-            <td><input type="number" id="time_{{i}}" value="30"></td>
-        </tr>
-        {% endfor %}
+    <table id="commandTable">
+        <thead><tr><th>Depth</th><th>Yaw</th><th>Time (s)</th></tr></thead>
+        <tbody><!-- JS заполнит --></tbody>
     </table>
-    <button onclick="saveMission()">Сохранить миссию (mission.json)</button>
-    <p id="status"></p>
-
-    <script>
-    function saveMission() {
-        let data = {};
-        for(let i=1; i<=10; i++) {
-            data['depth_'+i] = $('#depth_'+i).val();
-            data['yaw_'+i] = $('#yaw_'+i).val();
-            data['time_'+i] = $('#time_'+i).val();
-        }
-        $.ajax({
-            url: '/save_mission',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function(resp) {
-                $('#status').text('Миссия сохранена: ' + resp.file);
-            }
-        });
-    }
-    </script>
+    <button onclick="saveMission()">Сохранить миссию</button>
+    <button onclick="startMission()">Запуск миссии</button>
+    <button onclick="stopMission()">Экстренный стоп</button>
+    <div id="telemetry">Данные датчиков...</div>
 </body>
 </html>
